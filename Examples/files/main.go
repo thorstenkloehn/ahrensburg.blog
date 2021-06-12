@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -20,8 +21,10 @@ func main() {
 	ausgabe := []Seite{}
 
 	for _, file := range files {
-		test := Seite{Titel: file.Name(), Inhalt: "Hallo Leute"}
-		ausgabe = append(ausgabe, test)
+
+		inhaltContent, _ := ioutil.ReadFile("Datei/" + file.Name())
+		inhalt := Seite{Titel: file.Name(), Inhalt: string(inhaltContent)}
+		ausgabe = append(ausgabe, inhalt)
 	}
 
 	fmt.Println(ausgabe)
