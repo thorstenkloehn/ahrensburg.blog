@@ -21,10 +21,13 @@ func main() {
 	ausgabe := []Seite{}
 
 	for _, file := range files {
-
-		inhaltContent, _ := ioutil.ReadFile("Datei/" + file.Name())
-		inhalt := Seite{Titel: file.Name(), Inhalt: string(inhaltContent)}
-		ausgabe = append(ausgabe, inhalt)
+		if file.Type() == 0 {
+			inhaltContent, _ := ioutil.ReadFile("Datei/" + file.Name())
+			inhalt := Seite{Titel: file.Name(), Inhalt: string(inhaltContent)}
+			ausgabe = append(ausgabe, inhalt)
+			// If Ende
+		}
+		// For Ende
 	}
 
 	fmt.Println(ausgabe)
