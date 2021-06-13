@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -24,7 +25,7 @@ func main() {
 	var Ausgabe []string
 	for _, file := range files {
 
-		Ausgabe = append(Ausgabe, file.Name())
+		Ausgabe = append(Ausgabe, strings.Trim(file.Name(), ".md"))
 
 	}
 	var website Website
@@ -40,8 +41,8 @@ func main() {
 		log.Println(error)
 	}
 	website.Inhalt = string(lesen)
-	website.Titel = []string(Ausgabe)
 
+	website.Titel = []string(Ausgabe)
 	vorlagen.ExecuteTemplate(f, "index.html", &website)
 
 }
