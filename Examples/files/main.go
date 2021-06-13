@@ -5,27 +5,39 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
 
 type Website struct {
-	Titel  []string
-	Inhalt string
+	Titel       []string
+	Inhalt      string
+	Verzeichnis []string
 }
 
 var vorlagen, _ = template.ParseGlob("Examples/files/views/*")
 
 func main() {
 
-	files, err := os.ReadDir("datei")
+	const home = "Examples/files/Datei"
+
+	fmt.Println(filepath.Base(home))
+	files, err := os.ReadDir(home)
 	if err != nil {
 		log.Fatal(err)
 	}
 	var Ausgabe []string
+	var Verzeichnis []string
 	for _, file := range files {
 
-		Ausgabe = append(Ausgabe, strings.Trim(file.Name(), ".md"))
+		if file.Type() == 0 {
+
+			Ausgabe = append(Ausgabe, strings.Trim(file.Name(), ".md"))
+
+		} else {
+			Verzeichnis = append(Verzeichnis, file.Name())
+		}
 
 	}
 	var website Website
@@ -41,7 +53,7 @@ func main() {
 		log.Println(error)
 	}
 	website.Inhalt = string(lesen)
-
+	website.Verzeichnis = []string(Verzeichnis)
 	website.Titel = []string(Ausgabe)
 	vorlagen.ExecuteTemplate(f, "index.html", &website)
 

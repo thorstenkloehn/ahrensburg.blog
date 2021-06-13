@@ -6,11 +6,17 @@
 </head>
 <body>
 {{ .Inhalt }}
+
+{{range .Verzeichnis}}
+<li>{{ . }}</li>
+{{end}}
 <ul>
+
+
 {{range .Titel}}
-    <li>{{ . }}</li>
+    <li><a href="{{ . }}.html">{{ . }}</a></li>
 {{end}}
 
-    <ul>
+    </ul>
 </body>
 </html>
