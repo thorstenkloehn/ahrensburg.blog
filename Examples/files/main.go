@@ -7,54 +7,57 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"text/template"
 )
 
-type Website struct {
-	Titel       []string
-	Inhalt      string
-	Verzeichnis []string
+type Verzeichnis struct {
+	Verzeichnis string
 }
 
-var vorlagen, _ = template.ParseGlob("Examples/files/views/*")
+type Webseiten struct {
+	Verzeichnis Verzeichnis
+	Titel       string
+	Inhalt      string
+	Menue       []string
+}
+
+type Website struct {
+	Verzeichnisse []Verzeichnis
+	Webseiten     []Webseiten
+	Titel         string
+}
 
 func main() {
+	const home = "Examples/files/datei/"
+	homepathdatei := filepath.Join(home)
+	const ausgabe = "Examples/files/ausgabe"
 
-	const home = "Examples/files/Datei"
-
-	fmt.Println(filepath.Base(home))
-	files, err := os.ReadDir(home)
+	files, err := os.ReadDir(homepathdatei)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var Ausgabe []string
-	var Verzeichnis []string
+	webseiten := []Webseiten{}
+	webseiten1 := Webseiten{}
+	website := Website{}
 	for _, file := range files {
-
+		webseiten1.Titel = file.Name()
 		if file.Type() == 0 {
-
-			Ausgabe = append(Ausgabe, strings.Trim(file.Name(), ".md"))
-
+			inhalt, _ := ioutil.ReadFile(homepathdatei + "/" + file.Name())
+			webseiten1.Verzeichnis.Verzeichnis = file.Name()
+			webseiten1.Menue = append(webseiten1.Menue, strings.Trim(file.Name(), ".md"))
+			webseiten1.Inhalt = string(inhalt)
 		} else {
-			Verzeichnis = append(Verzeichnis, file.Name())
+			webseiten1.Verzeichnis.Verzeichnis = file.Name()
+			webseiten1.Inhalt = ""
+			webseiten1.Menue = []string{}
+			webseiten1.Verzeichnis.Verzeichnis = ""
+			website.Verzeichnisse = append(website.Verzeichnisse, webseiten1.Verzeichnis)
+
 		}
 
+		webseiten = append(webseiten, webseiten1)
 	}
-	var website Website
-
-	f, err := os.Create("datei/hallo.html")
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
+	website.Webseiten = webseiten
+	for i, ttt := range website.Webseiten {
+		fmt.Println(i, ttt.Titel, ttt.Menue, ttt.Inhalt)
 	}
-	lesen, error := ioutil.ReadFile("Datei/index.md")
-	if error != nil {
-		log.Println(error)
-	}
-	website.Inhalt = string(lesen)
-	website.Verzeichnis = []string(Verzeichnis)
-	website.Titel = []string(Ausgabe)
-	vorlagen.ExecuteTemplate(f, "index.html", &website)
-
 }
