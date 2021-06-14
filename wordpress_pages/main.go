@@ -1,4 +1,4 @@
-package main
+package wordpress_pages
 
 import (
 	"encoding/json"
@@ -100,7 +100,7 @@ type Blogausgabe struct {
 	BlogSite []BlogSite
 }
 
-func main() {
+func Start() {
 
 	var vorlagen, _ = template.ParseGlob("wordpress_pages/views/*")
 
@@ -121,7 +121,7 @@ func main() {
 
 	vorlagen.ExecuteTemplate(f, "index.html", &blogausgabe)
 	f.Close()
-	fmt.Println(blogausgabe[0].BlogSite[0].Titel)
+	fmt.Println("Seite bearbeitet")
 
 }
 
