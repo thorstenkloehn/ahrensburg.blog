@@ -1,0 +1,11 @@
+{
+  "title": "Ahrensburg-digital Docs",
+  "tagline": "Testseite",
+  "language": "de",
+  "html": {
+    "auto_landing": false,
+    "auto_toc": false,
+    "edit_on_github": "thorstenkloehn/Programmiersprachen/tree/master/docs",
+    "links": {"Technische Dokumentation": "https://ahrensburg.digital" }
+  }
+}
