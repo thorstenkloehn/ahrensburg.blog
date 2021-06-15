@@ -1,6 +1,6 @@
 package main
 
-import "github.com/thorstenkloehn/ahrensburg.digital/wordpress_pages"
+import "github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
 
 func main() {
 
