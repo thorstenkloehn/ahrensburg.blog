@@ -1,0 +1,21 @@
+{{template "header.html" .}}
+
+    <div class="bg-primary text-white">
+        <p> WILLKOMMEN BEI ahrensburg.digital
+        </p>
+
+        <h1> Blogging Nachrichten</h1>
+    </div>
+<ul>
+{{range . }}
+{{range .BlogSite}}
+
+    <h2><a href="{{ .Urls}}">{{ .Titel }}</a></h2>
+{{range .Inhalt}}
+
+    <li><a href="{{ .Link }}">{{ .Title.Rendered}}</a></li>
+{{end}}
+{{end}}
+{{end}}
+</ul>
+{{template "footer.html" .}}

@@ -1,0 +1,15 @@
+[Unit]
+Description=ahrensburg.digital
+
+[Service]
+WorkingDirectory=/Server
+ExecStart=/Server/ahrensburg.digital
+Restart=always
+# ahrensburg-digital
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=ahrensburg.digital
+User=root
+
+[Install]
+WantedBy=multi-user.target

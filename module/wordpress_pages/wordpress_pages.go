@@ -102,7 +102,7 @@ type Blogausgabe struct {
 
 func Start() {
 
-	var vorlagen, _ = template.ParseGlob("module/wordpress_pages/views/*")
+	var vorlagen, _ = template.ParseGlob("views/*")
 
 	blogausgabe := []Blogausgabe{}
 	blogausgabe1 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-blog.de", Titel: "Ahrensburg-blog.de"}}}
@@ -114,14 +114,14 @@ func Start() {
 	for _, ausgabe := range blogausgabe {
 		ausgabe.BlogSite[0].Lesen()
 	}
-	f, err := os.Create("module/wordpress_pages/output/index.html")
+	f, err := os.Create("output/wordpress/index.html")
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
 		return
 	}
 
-	vorlagen.ExecuteTemplate(f, "index.html", &blogausgabe)
+	vorlagen.ExecuteTemplate(f, "wordpresspagesSeite.html", &blogausgabe)
 	f.Close()
 	fmt.Println("Seite bearbeitet")
 
