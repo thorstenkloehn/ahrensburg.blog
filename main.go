@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"github.com/robfig/cron/v3"
+	"github.com/thorstenkloehn/ahrensburg.digital/controller"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/Rechsliche_Angabe"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
 	"net/http"
@@ -21,6 +22,7 @@ func main() {
 	router.Handle("/statik/", http.StripPrefix("/statik/", http.FileServer(http.Dir("statik"))))
 	router.Handle("/rechtliche_Angabe/", http.StripPrefix("/rechtliche_Angabe/", http.FileServer(http.Dir("output/Rechtliche_Angabe"))))
 	router.Handle("/dokumenten/", http.StripPrefix("/dokumenten/", http.FileServer(http.Dir("static"))))
+	router.HandleFunc("/login/", controller.Login)
 	cfg := &tls.Config{
 		MinVersion: tls.VersionTLS12,
 		CipherSuites: []uint16{
