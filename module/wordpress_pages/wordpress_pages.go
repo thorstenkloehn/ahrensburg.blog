@@ -97,7 +97,8 @@ type BlogSite struct {
 }
 
 type Blogausgabe struct {
-	BlogSite []BlogSite
+	BlogSite    []BlogSite
+	SeitenTitel string
 }
 
 func Start() {

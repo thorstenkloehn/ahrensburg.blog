@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"github.com/robfig/cron/v3"
+	"github.com/thorstenkloehn/ahrensburg.digital/module/Rechsliche_Angabe"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
 	"net/http"
 )
@@ -13,10 +14,12 @@ func main() {
 	c.AddFunc("@hourly", func() { wordpress_pages.Start() })
 	c.Start()
 	wordpress_pages.Start()
+	Rechsliche_Angabe.Start()
 
 	router := http.NewServeMux()
 	router.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("output/wordpress"))))
 	router.Handle("/statik/", http.StripPrefix("/statik/", http.FileServer(http.Dir("statik"))))
+	router.Handle("/rechtliche_Angabe/", http.StripPrefix("/rechtliche_Angabe/", http.FileServer(http.Dir("output/Rechtliche_Angabe"))))
 
 	cfg := &tls.Config{
 		MinVersion: tls.VersionTLS12,
