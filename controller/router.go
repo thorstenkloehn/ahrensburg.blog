@@ -9,11 +9,11 @@ type Seite struct {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	title := r.URL.Path[len("/login/"):]
-	w.Write([]byte(title))
-	if r.Method == "localhost" {
-		w.Write([]byte("Sie haben kein Zugriff auf der Datenbsnk"))
+	// title := r.URL.Path[len("/login/")
+	if r.Host == "localhost" {
+		w.Write([]byte("Sie haben  Zugriff auf die Datenbank"))
+
 	} else {
-		w.Write([]byte("Sie haben Zugriff auf der Datenbank"))
+		w.Write([]byte("Sie haben kein Zugriff auf die Datenbank"))
 	}
 }
