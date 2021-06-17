@@ -5,6 +5,7 @@ sudo apt-get install pandoc
 sudo apt-get install cmake gcc clang gdb build-essential git-core -y
 sudo apt install python3 python3-dev git curl python-is-python3 -y
 sudo apt-get install php php-cli php-mbstring php-xml php-fpm -y
+sudo apt-get install sqlite3 -y
 sudo apt-get install composer
  sudo composer global require daux/daux.io
  if [ -f /usr/bin/node ] ; then
