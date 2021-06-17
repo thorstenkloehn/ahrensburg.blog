@@ -4,13 +4,20 @@ import (
 	"crypto/tls"
 	"github.com/robfig/cron/v3"
 	"github.com/thorstenkloehn/ahrensburg.digital/controller"
+	"github.com/thorstenkloehn/ahrensburg.digital/models"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/Rechsliche_Angabe"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"net/http"
 )
 
 func main() {
-
+	db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db.AutoMigrate(&models.Wordpress{})
 	c := cron.New()
 	c.AddFunc("@hourly", func() { wordpress_pages.Start() })
 	c.Start()
@@ -43,8 +50,8 @@ func main() {
 		// to prevent connections from taking resources indefinitely.
 	}
 
-	err := srv.ListenAndServeTLS("/etc/letsencrypt/live/ahrensburg.digital/cert.pem", "/etc/letsencrypt/live/ahrensburg.digital/privkey.pem")
-	if err != nil {
+	error := srv.ListenAndServeTLS("/etc/letsencrypt/live/ahrensburg.digital/cert.pem", "/etc/letsencrypt/live/ahrensburg.digital/privkey.pem")
+	if error != nil {
 		http.ListenAndServe(":80", router)
 	}
 
