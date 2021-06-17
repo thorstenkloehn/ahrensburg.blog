@@ -109,9 +109,12 @@ func Start() {
 	blogausgabe1 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-blog.de", Titel: "Ahrensburg-blog.de"}}}
 	blogausgabe2 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-portal.de", Titel: "Ahrensburg-portal.de"}}}
 	blogausgabe3 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.szene-ahrensburg.de/", Titel: "szene-ahrensburg.de"}}}
+	blogausgabe4 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburger-stadtforum.de/", Titel: "www.ahrensburger-stadtforum.de"}}}
+
 	blogausgabe = append(blogausgabe, blogausgabe1)
 	blogausgabe = append(blogausgabe, blogausgabe2)
 	blogausgabe = append(blogausgabe, blogausgabe3)
+	blogausgabe = append(blogausgabe, blogausgabe4)
 	for _, ausgabe := range blogausgabe {
 		ausgabe.BlogSite[0].Lesen()
 	}
