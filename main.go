@@ -20,7 +20,7 @@ func main() {
 	router.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("output/wordpress"))))
 	router.Handle("/statik/", http.StripPrefix("/statik/", http.FileServer(http.Dir("statik"))))
 	router.Handle("/rechtliche_Angabe/", http.StripPrefix("/rechtliche_Angabe/", http.FileServer(http.Dir("output/Rechtliche_Angabe"))))
-
+	router.Handle("/dokumenten/", http.StripPrefix("/dokumenten/", http.FileServer(http.Dir("docs/static"))))
 	cfg := &tls.Config{
 		MinVersion: tls.VersionTLS12,
 		CipherSuites: []uint16{
