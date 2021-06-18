@@ -1,19 +1,34 @@
 package controller
 
-import "net/http"
+import (
+	"fmt"
+	"github.com/thorstenkloehn/ahrensburg.digital/models"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"log"
+	"net/http"
+	"text/template"
+)
 
-type Seite struct {
-	Titel  string
-	Inhalt string
-}
+var vorlagen, _ = template.ParseGlob("views/*")
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Fprint(w, r.Host)
 	// title := r.URL.Path[len("/login/")
-	if r.Host == "localhost" {
-		w.Write([]byte("Sie haben  Zugriff auf die Datenbank"))
 
+	if r.Host == "localhost" {
+		wordpress := []models.Wordpress{}
+		db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+		if err != nil {
+
+			log.Fatal(err)
+		}
+		db.Find(&wordpress).Row()
+		fmt.Println(wordpress)
+		vorlagen.ExecuteTemplate(w, "wordpressformularEintrag.html", wordpress)
 	} else {
-		w.Write([]byte("Sie haben kein Zugriff auf die Datenbank"))
+		fmt.Fprint(w, "Sie heben kein Zugriff")
 	}
+
 }
