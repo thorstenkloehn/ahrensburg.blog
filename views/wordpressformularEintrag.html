@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ range .}}
-
+{{template "header.html" .}}
 <form>
-{{ . }}
+    <select class="form-select" aria-label="Default select example">
+        <option selected>Einzelne Menü</option>
+{{ range .}}
+        <option value="{{ .ID }}">{{ .Titel}}</option>
 
-</form>
+
 {{end}}
-</body>
-</html>
+    </select>
+</form>
+{{template "footer.html" .}}

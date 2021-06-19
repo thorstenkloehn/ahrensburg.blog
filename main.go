@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/robfig/cron/v3"
 	"github.com/thorstenkloehn/ahrensburg.digital/controller"
 	"github.com/thorstenkloehn/ahrensburg.digital/models"
@@ -28,6 +29,8 @@ func main() {
 	Rechsliche_Angabe.Start()
 
 	router := http.NewServeMux()
-	router.HandleFunc("/login/", controller.Login)
+	router.HandleFunc("/", controller.Login)
+	fmt.Println(" http://localhost:8080")
 	http.ListenAndServe("localhost:8080", router)
+
 }
