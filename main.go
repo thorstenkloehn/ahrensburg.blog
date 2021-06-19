@@ -28,8 +28,6 @@ func main() {
 	Rechsliche_Angabe.Start()
 
 	router := http.NewServeMux()
-	// router.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("output/wordpress"))))
-	// router.Handle("/rechtliche_Angabe/", http.StripPrefix("/rechtliche_Angabe/", http.FileServer(http.Dir("output/Rechtliche_Angabe"))))
 	router.HandleFunc("/login/", controller.Login)
 	http.ListenAndServe("localhost:8080", router)
 }
