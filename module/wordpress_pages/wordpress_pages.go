@@ -118,7 +118,7 @@ func Start() {
 	for _, ausgabe := range blogausgabe {
 		ausgabe.BlogSite[0].Lesen()
 	}
-	f, err := os.Create("output/wordpress/index.html")
+	f, err := os.Create("output/index.html")
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
