@@ -14,7 +14,7 @@ var vorlagen, _ = template.ParseGlob("views/*")
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprint(w, r.Host)
+	// fmt.Fprint(w, r.Host)
 	// title := r.URL.Path[len("/login/")
 
 	if r.Host == "localhost:8080" {
