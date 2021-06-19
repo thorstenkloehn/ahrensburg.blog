@@ -17,7 +17,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, r.Host)
 	// title := r.URL.Path[len("/login/")
 
-	if r.Host == "localhost" {
+	if r.Host == "localhost:8080" {
 		wordpress := []models.Wordpress{}
 		db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 		if err != nil {
