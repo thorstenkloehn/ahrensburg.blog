@@ -3,7 +3,11 @@ package wordpress_pages
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/thorstenkloehn/ahrensburg.digital/models"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"text/template"
@@ -102,19 +106,22 @@ type Blogausgabe struct {
 }
 
 func Start() {
+	db, err := gorm.Open(sqlite.Open("datenbank.db"), &gorm.Config{})
+	if err != nil {
 
+		log.Fatal(err)
+	}
+
+	ausgaben := []models.Wordpress{}
+	db.Find(&ausgaben)
+	fmt.Println(ausgaben)
 	var vorlagen, _ = template.ParseGlob("views/*")
 
 	blogausgabe := []Blogausgabe{}
-	blogausgabe1 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-blog.de", Titel: "Ahrensburg-blog.de"}}}
-	blogausgabe2 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-portal.de", Titel: "Ahrensburg-portal.de"}}}
-	blogausgabe3 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.szene-ahrensburg.de/", Titel: "szene-ahrensburg.de"}}}
-	blogausgabe4 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburger-stadtforum.de/", Titel: "www.ahrensburger-stadtforum.de"}}}
-
-	blogausgabe = append(blogausgabe, blogausgabe1)
-	blogausgabe = append(blogausgabe, blogausgabe2)
-	blogausgabe = append(blogausgabe, blogausgabe3)
-	blogausgabe = append(blogausgabe, blogausgabe4)
+	for _, ausgabe := range ausgaben {
+		blogausgabe1 := Blogausgabe{BlogSite: []BlogSite{{Urls: ausgabe.Url, Titel: ausgabe.Titel}}}
+		blogausgabe = append(blogausgabe, blogausgabe1)
+	}
 	for _, ausgabe := range blogausgabe {
 		ausgabe.BlogSite[0].Lesen()
 	}
@@ -124,7 +131,6 @@ func Start() {
 		f.Close()
 		return
 	}
-
 	vorlagen.ExecuteTemplate(f, "wordpresspagesSeite.html", &blogausgabe)
 	f.Close()
 	fmt.Println("Seite bearbeitet")
@@ -144,4 +150,5 @@ func (blog *BlogSite) Lesen() *BlogSite {
 	body1, _ := ioutil.ReadAll(res.Body)
 	json.Unmarshal((body1), &blog.Inhalt)
 	return blog
+
 }
