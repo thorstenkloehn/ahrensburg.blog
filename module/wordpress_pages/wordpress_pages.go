@@ -1,5 +1,12 @@
 package wordpress_pages
 
+import (
+	"fmt"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"log"
+)
+
 type Bloginhalt struct {
 	Id      int    `json:"id"`
 	Date    string `json:"date"`
@@ -82,5 +89,10 @@ type Bloginhalt struct {
 }
 
 func Start() {
+	db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+	if err != nil {
+
+		log.Fatal(err)
+	}
 
 }
