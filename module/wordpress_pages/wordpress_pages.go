@@ -1,15 +1,6 @@
 package wordpress_pages
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
-	"text/template"
-)
-
-type BlogInhalt struct {
+type Bloginhalt struct {
 	Id      int    `json:"id"`
 	Date    string `json:"date"`
 	DateGmt string `json:"date_gmt"`
@@ -90,58 +81,6 @@ type BlogInhalt struct {
 	} `json:"_links"`
 }
 
-type BlogSite struct {
-	Inhalt []BlogInhalt
-	Titel  string
-	Urls   string
-}
-
-type Blogausgabe struct {
-	BlogSite    []BlogSite
-	SeitenTitel string
-}
-
 func Start() {
 
-	var vorlagen, _ = template.ParseGlob("views/*")
-
-	blogausgabe := []Blogausgabe{}
-	blogausgabe1 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-blog.de", Titel: "Ahrensburg-blog.de"}}}
-	blogausgabe2 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburg-portal.de", Titel: "Ahrensburg-portal.de"}}}
-	blogausgabe3 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.szene-ahrensburg.de/", Titel: "szene-ahrensburg.de"}}}
-	blogausgabe4 := Blogausgabe{BlogSite: []BlogSite{{Urls: "https://www.ahrensburger-stadtforum.de/", Titel: "www.ahrensburger-stadtforum.de"}}}
-
-	blogausgabe = append(blogausgabe, blogausgabe1)
-	blogausgabe = append(blogausgabe, blogausgabe2)
-	blogausgabe = append(blogausgabe, blogausgabe3)
-	blogausgabe = append(blogausgabe, blogausgabe4)
-	for _, ausgabe := range blogausgabe {
-		ausgabe.BlogSite[0].Lesen()
-	}
-	f, err := os.Create("output/index.html")
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
-	}
-
-	vorlagen.ExecuteTemplate(f, "wordpresspagesSeite.html", &blogausgabe)
-	f.Close()
-	fmt.Println("Seite bearbeitet")
-
-}
-
-func (blog *BlogSite) Lesen() *BlogSite {
-
-	url := blog.Urls + "/wp-json/wp/v2/posts"
-
-	req, _ := http.NewRequest("GET", url, nil)
-
-	res, _ := http.DefaultClient.Do(req)
-
-	defer res.Body.Close()
-
-	body1, _ := ioutil.ReadAll(res.Body)
-	json.Unmarshal((body1), &blog.Inhalt)
-	return blog
 }
