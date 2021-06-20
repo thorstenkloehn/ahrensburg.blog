@@ -5,6 +5,7 @@
 {{ range .}}
         <option value="{{ .ID }}">{{ .Titel}}</option>
 {{end}}
+        <option value="Url_Hinzufuegen" >Url hinzufügen</option>
     </select>
 </form>
 {{template "footer.html" .}}
