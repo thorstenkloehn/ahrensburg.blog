@@ -106,7 +106,7 @@ type Blogausgabe struct {
 }
 
 func Start() {
-	db, err := gorm.Open(sqlite.Open("datenbank.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 	if err != nil {
 
 		log.Fatal(err)
