@@ -1,11 +1,25 @@
 {{template "header.html" .}}
+<div class="bg-primary text-white">
+    <p> ahrensburg.digital
+    </p>
+
+    <h1> Blog Eintragen</h1>
+</div>
 <form>
     <select class="form-select" aria-label="Default select example">
-        <option selected>Einzelne Menü</option>
+        <option selected>Vorhanden Blog Seiten</option>
 {{ range .}}
         <option value="{{ .ID }}">{{ .Titel}}</option>
 {{end}}
-        <option value="Url_Hinzufuegen" >Url hinzufügen</option>
+
     </select>
+    <input type="submit" value="Löschen">
+</form>
+
+<br>
+ <form action="/formular" method="post">
+    Url Eintragen : <input type="text" name="urlSeiten">
+
+<input type="submit">Url Eintragen
 </form>
 {{template "footer.html" .}}

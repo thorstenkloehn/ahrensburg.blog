@@ -114,7 +114,7 @@ func Start() {
 
 	ausgaben := []models.Wordpress{}
 	db.Find(&ausgaben)
-	fmt.Println(ausgaben)
+
 	var vorlagen, _ = template.ParseGlob("views/*")
 
 	blogausgabe := []Blogausgabe{}

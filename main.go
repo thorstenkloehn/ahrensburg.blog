@@ -29,6 +29,7 @@ func main() {
 	Rechsliche_Angabe.Start()
 
 	router := http.NewServeMux()
+	router.HandleFunc("/formular", controller.WordpressWebformular)
 	router.HandleFunc("/", controller.Login)
 	fmt.Println(" http://localhost:8080")
 	http.ListenAndServe("localhost:8080", router)
