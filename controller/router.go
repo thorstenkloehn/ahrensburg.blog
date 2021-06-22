@@ -35,13 +35,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "localhost:8080" {
-		/*	wordpress := []models.Wordpress{}
-			db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
-			if err != nil {
 
-				log.Fatal(err)
-			}
-		*/
+		db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+		if err != nil {
+
+			log.Fatal(err)
+		}
 		urls := r.FormValue("urlSeiten")
 		if urls == "" {
 			http.Redirect(w, r, "http://localhost:8080", 301)
@@ -61,6 +60,8 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 				daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
 				if daten1.Status == "200 OK" {
 					fmt.Fprintln(w, "Kann Eingeschrieben werden")
+					wordpress := []models.Wordpress{{Url: urls, Titel: htmlquery.InnerText(a)}}
+					db.Create(&wordpress)
 				} else {
 					fmt.Fprintln(w, "nicht eingeschrienen werden")
 				}
