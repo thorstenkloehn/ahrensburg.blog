@@ -72,3 +72,11 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func WordpressWebformulaloeshen(w http.ResponseWriter, r *http.Request) {
+	if r.Host == "localhost:8080" {
+
+	} else {
+		fmt.Fprintln(w, "Sie haben kein Zugriff")
+	}
+}
