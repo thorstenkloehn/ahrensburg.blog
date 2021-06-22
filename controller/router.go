@@ -44,23 +44,30 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 		*/
 		urls := r.FormValue("urlSeiten")
 		if urls == "" {
-			fmt.Println("kein Url")
-			http.Redirect(w, r, "http:/localhost:8080", 301)
+			http.Redirect(w, r, "http://localhost:8080", 301)
+			return
+		}
+		daten, error1 := http.Get(urls)
+		if error1 != nil {
 
-		} else {
+		} else if daten.Status == "200 OK" {
+
 			doc, err := htmlquery.LoadURL(urls)
 			if err != nil {
-				log.Println(err)
-			}
-			a := htmlquery.FindOne(doc, "//title")
-			if a != nil {
-				fmt.Println(htmlquery.InnerText(a))
+				fmt.Fprintln(w, err)
 			} else {
-
-				fmt.Println("Fehler")
-
+				a := htmlquery.FindOne(doc, "//title")
+				fmt.Fprintln(w, htmlquery.InnerText(a))
+				daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
+				if daten1.Status == "200 OK" {
+					fmt.Fprintln(w, "Kann Eingeschrieben werden")
+				} else {
+					fmt.Fprintln(w, "nicht eingeschrienen werden")
+				}
 			}
+		} else {
+			fmt.Fprintln(w, "keine Daten")
 		}
-
 	}
+
 }
