@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"github.com/antchfx/htmlquery"
 	"github.com/thorstenkloehn/ahrensburg.digital/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -25,10 +26,48 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 		db.Find(&wordpress).Row()
-		fmt.Println(wordpress)
 		vorlagen.ExecuteTemplate(w, "wordpressformularEintrag.html", wordpress)
 	} else {
 		fmt.Fprint(w, "Sie heben kein Zugriff")
+	}
+
+}
+
+func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
+	if r.Host == "localhost:8080" {
+		/*	wordpress := []models.Wordpress{}
+			db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+			if err != nil {
+
+				log.Fatal(err)
+			}
+		*/
+		urls := r.FormValue("urlSeiten")
+		if urls == "" {
+			http.Redirect(w, r, "http://localhost:8080", 301)
+			return
+		}
+		daten, error1 := http.Get(urls)
+		if error1 != nil {
+
+		} else if daten.Status == "200 OK" {
+
+			doc, err := htmlquery.LoadURL(urls)
+			if err != nil {
+				fmt.Fprintln(w, err)
+			} else {
+				a := htmlquery.FindOne(doc, "//title")
+				fmt.Fprintln(w, htmlquery.InnerText(a))
+				daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
+				if daten1.Status == "200 OK" {
+					fmt.Fprintln(w, "Kann Eingeschrieben werden")
+				} else {
+					fmt.Fprintln(w, "nicht eingeschrienen werden")
+				}
+			}
+		} else {
+			fmt.Fprintln(w, "keine Daten")
+		}
 	}
 
 }
