@@ -63,7 +63,7 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 					wordpress := []models.Wordpress{{Url: urls, Titel: htmlquery.InnerText(a)}}
 					db.Create(&wordpress)
 				} else {
-					fmt.Fprintln(w, "nicht eingeschrienen werden")
+					fmt.Fprintln(w, "nicht eingeschriebnen werden")
 				}
 			}
 		} else {
