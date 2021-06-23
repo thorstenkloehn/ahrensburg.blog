@@ -39,24 +39,24 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "localhost:8080" {
 		// Sie haben Zugriff
 		urls := r.FormValue("urlSeiten")
-		fmt.Fprintln(w, "Sie haben Zugriff")
+		// fmt.Fprintln(w, "Sie haben Zugriff")
 		//String Leer Formular
 		if urls == "" {
-			fmt.Fprintln(w, "Formular Leer")
+			//	fmt.Fprintln(w, "Formular Leer")
 		} else {
 
-			fmt.Fprintln(w, "formular wahr ein Text")
+			//	fmt.Fprintln(w, "formular wahr ein Text")
 			daten, error1 := http.Get(urls)
 			if error1 != nil {
-				fmt.Fprint(w, "wahr kein Urls")
+				//		fmt.Fprint(w, "wahr kein Urls")
 			} else {
 				if daten.Status == "200 OK" {
 					doc, err := htmlquery.LoadURL(urls)
 					if err != nil {
-						fmt.Fprintln(w, err)
+						//			fmt.Fprintln(w, err)
 					} else {
-						a := htmlquery.FindOne(doc, "//title")
-						fmt.Fprintln(w, htmlquery.InnerText(a))
+						//		a := htmlquery.FindOne(doc, "//title")
+						//		fmt.Fprintln(w, htmlquery.InnerText(a))
 					}
 					///weiter
 					daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
@@ -73,13 +73,13 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 						db.Create(&wordpress)
 
 					} else {
-						fmt.Fprintln(w, "Ist kein Wordüress Seite")
+						//					fmt.Fprintln(w, "Ist kein Wordüress Seite")
 					}
 				}
 			}
 
 		}
-		fmt.Fprintln(w, "a href=\"http://localhost:8080\">Zurück</a>")
+		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 
 	} else {
 		//Sie habem kein Zugriff
