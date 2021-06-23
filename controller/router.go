@@ -42,8 +42,7 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Sie haben Zugriff")
 		//String Leer Formular
 		if urls == "" {
-
-			fmt.Fprintln(w, "Formular wahr leer")
+			fmt.Fprintln(w, "Formular Leer")
 		} else {
 
 			fmt.Fprintln(w, "formular wahr ein Text")
@@ -83,7 +82,7 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		//Sie habem kein Zugriff
-		fmt.Fprintln(w, "Sie haben kein Zugriff")
+		fmt.Fprint(w, "Sie haben kein Zugriff")
 	}
 
 }
