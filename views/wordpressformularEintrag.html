@@ -6,8 +6,9 @@
     <h1> Blog Eintragen</h1>
 </div>
 <form action="http://localhost:8080/loeschen" method="post">
+
          <select class="form-select" aria-label="Default select example" name="Auswahl">
-        <option selected>Vorhanden Blog Seiten</option>
+
 {{ range .}}
         <option value="{{ .ID }}">{{ .Titel}}</option>
 {{end}}

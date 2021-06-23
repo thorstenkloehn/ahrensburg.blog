@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"net/http"
+	"strconv"
 	"text/template"
 )
 
@@ -56,19 +57,23 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintln(w, err)
 			} else {
 				a := htmlquery.FindOne(doc, "//title")
-				fmt.Fprintln(w, htmlquery.InnerText(a))
+				//	fmt.Fprintln(w, htmlquery.InnerText(a))
 				daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
 				if daten1.Status == "200 OK" {
-					fmt.Fprintln(w, "Kann Eingeschrieben werden")
+					//	fmt.Fprintln(w, "Kann Eingeschrieben werden")
 					wordpress := []models.Wordpress{{Url: urls, Titel: htmlquery.InnerText(a)}}
 					db.Create(&wordpress)
+					http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 				} else {
-					fmt.Fprintln(w, "nicht eingeschriebnen werden")
+					http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 				}
+
 			}
+
 		} else {
-			fmt.Fprintln(w, "keine Daten")
+
 		}
+
 	}
 
 }
@@ -76,7 +81,17 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 func WordpressWebformulaloeshen(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "localhost:8080" {
 
+		db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
+		if err != nil {
+
+			log.Fatal(err)
+		}
+		ergebnis, _ := strconv.Atoi(r.FormValue(("Auswahl")))
+		db.Delete(&models.Wordpress{}, ergebnis)
+		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 	} else {
 		fmt.Fprintln(w, "Sie haben kein Zugriff")
+		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 	}
+
 }
