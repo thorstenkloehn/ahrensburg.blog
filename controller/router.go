@@ -61,7 +61,7 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 					///weiter
 					daten1, _ := http.Get(urls + "/wp-json/wp/v2/posts")
 					if daten1.Status == "200 OK" {
-						fmt.Fprintln(w, "Kann Eingeschrieben werden")
+						//	fmt.Fprintln(w, "Kann Eingeschrieben werden")
 						db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 						if err != nil {
 
