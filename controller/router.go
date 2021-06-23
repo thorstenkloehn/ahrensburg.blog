@@ -78,9 +78,8 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			fmt.Println("hhhh")
-
 		}
+		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 
 	} else {
 		//Sie habem kein Zugriff
