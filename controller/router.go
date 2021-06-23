@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/antchfx/htmlquery"
 	"github.com/thorstenkloehn/ahrensburg.digital/models"
+	"github.com/thorstenkloehn/ahrensburg.digital/module/feed"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
@@ -104,4 +105,11 @@ func WordpressWebformulaloeshen(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
 	}
 
+}
+
+func FeedSeiten(w http.ResponseWriter, r *http.Request) {
+	start := feed.Rss{}
+	start.Lesen("http://ahrensburg-blog.de/feed")
+	titel := start.Channel.Title
+	fmt.Fprintln(w, titel)
 }
