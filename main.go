@@ -18,6 +18,7 @@ func main() {
 		if os.IsNotExist(errordatei) {
 			wordpress := models.Wordpress{}
 			wordpress.NeueTabelleerstellen()
+
 		}
 	}
 
