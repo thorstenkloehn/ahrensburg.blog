@@ -18,8 +18,7 @@ func main() {
 		if os.IsNotExist(errordatei) {
 			wordpress := models.Wordpress{}
 			wordpress.NeueTabelleerstellen()
-			feed := models.Feed{}
-			feed.NeueFeedTabelleerstellen()
+
 		}
 	}
 
@@ -33,7 +32,6 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/formular", controller.WordpressWebformular)
 	router.HandleFunc("/loeschen", controller.WordpressWebformulaloeshen)
-	router.HandleFunc("/feed", controller.FeedSeiten)
 	router.HandleFunc("/", controller.Login)
 	fmt.Println(" http://localhost:8080")
 	http.ListenAndServe("localhost:8080", router)
