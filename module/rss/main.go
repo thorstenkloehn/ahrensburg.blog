@@ -83,7 +83,7 @@ func main() {
 	for _, rssurlausgabe := range ausgaben {
 		resp, _ := http.Get(rssurlausgabe.Url)
 		document, _ := io.ReadAll(resp.Body)
-		xml.Unmarshal([]byte(document), &rssausgabe)
+		xml.Unmarshal((document), &rssausgabe)
 		start := Rsswebsiten{Url: []string{rssurlausgabe.Url}, Rsswebsite: []Rss{rssausgabe}}
 		rss = append(rss, start)
 	}
