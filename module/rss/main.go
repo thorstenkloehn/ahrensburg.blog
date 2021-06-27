@@ -2,8 +2,15 @@ package main
 
 import (
 	"encoding/xml"
+	"fmt"
+	"github.com/thorstenkloehn/ahrensburg.digital/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"text/template"
 )
 
 type Rss struct {
@@ -58,11 +65,37 @@ type Rsswebsiten struct {
 	Rsswebsite []Rss
 }
 
+var vorlagen, _ = template.ParseGlob("views/*")
+
 func main() {
-	r := Rsstabele{}
 	db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+
+		log.Fatal(err)
 	}
+
+	ausgaben := []models.Rsstabele{}
+	db.Find(&ausgaben)
+
+	rss := []Rsswebsiten{}
+	rssausgabe := Rss{}
+
+	for _, rssurlausgabe := range ausgaben {
+		resp, _ := http.Get(rssurlausgabe.Url)
+		document, _ := io.ReadAll(resp.Body)
+		xml.Unmarshal([]byte(document), &rssausgabe)
+		start := Rsswebsiten{Url: []string{rssurlausgabe.Url}, Rsswebsite: []Rss{rssausgabe}}
+		rss = append(rss, start)
+	}
+	f, err := os.Create("output/rss.html")
+	if err != nil {
+		fmt.Println(err)
+		f.Close()
+		return
+	}
+	fmt.Println(rss[0].Rsswebsite[0].Channel.Item[0].Title)
+	vorlagen.ExecuteTemplate(f, "rss.html", &rss)
+	f.Close()
+	fmt.Println("Rss Seite ist herstellt")
 
 }
