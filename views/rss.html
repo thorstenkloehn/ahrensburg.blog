@@ -8,17 +8,22 @@
 </div>
 
 {{ range . }}
+{{ range .RssSite}}
+{{ range .Inhalt}}
+<h2>{{ .Channel.Title}}</h2>
+<ul>
+{{ range .Channel.Item}}
 
-{{ range .Rsswebsite}}
-
-<h2> {{ .Channel.Title}} </h2>
-
-{{range  .Channel.Item }}
-<li>{{ .Title}}</li>
+    <li><a href="{{.Link}}">{{ .Title}}</a></li>
+    {{end}}
+</ul>
+{{end}}
+{{end}}
 {{end}}
 
-{{end}}
+{{template "footer.html" .}}
 
-{{end}}
+
+
 </body>
 </html>

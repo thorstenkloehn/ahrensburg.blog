@@ -6,6 +6,7 @@ import (
 	"github.com/thorstenkloehn/ahrensburg.digital/controller"
 	"github.com/thorstenkloehn/ahrensburg.digital/models"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/Rechsliche_Angabe"
+	"github.com/thorstenkloehn/ahrensburg.digital/module/rss"
 	"github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
 	"net/http"
 	"os"
@@ -25,9 +26,11 @@ func main() {
 	// db.AutoMigrate(&models.Wordpress{})
 	c := cron.New()
 	c.AddFunc("@hourly", func() { wordpress_pages.Start() })
+	c.AddFunc("@hourly", func() { rss.Start() })
 	c.Start()
 	wordpress_pages.Start()
 	Rechsliche_Angabe.Start()
+	rss.Start()
 
 	router := http.NewServeMux()
 	router.HandleFunc("/formular", controller.WordpressWebformular)

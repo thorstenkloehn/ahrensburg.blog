@@ -1,4 +1,4 @@
-package main
+package rss
 
 import (
 	"encoding/xml"
@@ -6,7 +6,7 @@ import (
 	"github.com/thorstenkloehn/ahrensburg.digital/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -55,37 +55,35 @@ type Rss struct {
 	} `xml:"channel"`
 }
 
-type Rsstabele struct {
-	ID  uint `gorm:"primaryKey"`
-	Url string
+type RssSite struct {
+	Inhalt []Rss
+	Titel  string
+	Urls   string
 }
-
-type Rsswebsiten struct {
-	Url        []string
-	Rsswebsite []Rss
+type Rssausgabe struct {
+	RssSite     []RssSite
+	SeitenTitel string
 }
 
 var vorlagen, _ = template.ParseGlob("views/*")
 
-func main() {
+func Start() {
 	db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 	if err != nil {
-
 		log.Fatal(err)
 	}
-
 	ausgaben := []models.Rsstabele{}
 	db.Find(&ausgaben)
 
-	rss := []Rsswebsiten{}
-	rssausgabe := Rss{}
+	rssausgabe := []Rssausgabe{}
+	for _, ausgabe := range ausgaben {
 
-	for _, rssurlausgabe := range ausgaben {
-		resp, _ := http.Get(rssurlausgabe.Url)
-		document, _ := io.ReadAll(resp.Body)
-		xml.Unmarshal((document), &rssausgabe)
-		start := Rsswebsiten{Url: []string{rssurlausgabe.Url}, Rsswebsite: []Rss{rssausgabe}}
-		rss = append(rss, start)
+		rssausgabe1 := Rssausgabe{RssSite: []RssSite{{Urls: ausgabe.Url, Titel: ausgabe.Titel}}}
+		rssausgabe = append(rssausgabe, rssausgabe1)
+	}
+
+	for _, ausgabe := range rssausgabe {
+		ausgabe.RssSite[0].Lesen()
 	}
 	f, err := os.Create("output/rss.html")
 	if err != nil {
@@ -93,9 +91,24 @@ func main() {
 		f.Close()
 		return
 	}
-	fmt.Println(rss[0].Rsswebsite[0].Channel.Item[0].Title)
-	vorlagen.ExecuteTemplate(f, "rss.html", &rss)
+	vorlagen.ExecuteTemplate(f, "rss.html", &rssausgabe)
 	f.Close()
-	fmt.Println("Rss Seite ist herstellt")
+	fmt.Println("Seite bearbeitet")
+
+}
+
+func (blog *RssSite) Lesen() *RssSite {
+
+	url := blog.Urls
+
+	req, _ := http.NewRequest("GET", url, nil)
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+
+	body1, _ := ioutil.ReadAll(res.Body)
+	xml.Unmarshal((body1), &blog.Inhalt)
+	return blog
 
 }
