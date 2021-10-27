@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/robfig/cron/v3"
-	"github.com/thorstenkloehn/ahrensburg.digital/controller"
-	"github.com/thorstenkloehn/ahrensburg.digital/models"
-	"github.com/thorstenkloehn/ahrensburg.digital/module/Rechsliche_Angabe"
-	"github.com/thorstenkloehn/ahrensburg.digital/module/rss"
-	"github.com/thorstenkloehn/ahrensburg.digital/module/wordpress_pages"
+	"github.com/robfig/cron"
+	"github.com/thorstenkloehn/ahrensburg.blog/controller"
+	"github.com/thorstenkloehn/ahrensburg.blog/models"
+	"github.com/thorstenkloehn/ahrensburg.blog/module/Rechsliche_Angabe"
+	"github.com/thorstenkloehn/ahrensburg.blog/module/rss"
+	"github.com/thorstenkloehn/ahrensburg.blog/module/wordpress_pages"
 	"net/http"
 	"os"
 )

@@ -3,7 +3,7 @@ package rss
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/thorstenkloehn/ahrensburg.digital/models"
+	"github.com/thorstenkloehn/ahrensburg.blog/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"io/ioutil"
