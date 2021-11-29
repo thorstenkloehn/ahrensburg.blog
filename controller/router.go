@@ -2,8 +2,8 @@ package controller
 
 import (
 	"fmt"
+	"git.ahrensburg.digital/Thorsten/ahrensburg.blog/models"
 	"github.com/antchfx/htmlquery"
-	"github.com/thorstenkloehn/ahrensburg.blog/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"

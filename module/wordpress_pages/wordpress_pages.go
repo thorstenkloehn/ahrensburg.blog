@@ -3,7 +3,7 @@ package wordpress_pages
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/thorstenkloehn/ahrensburg.blog/models"
+	"git.ahrensburg.digital/Thorsten/ahrensburg.blog/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"io/ioutil"
