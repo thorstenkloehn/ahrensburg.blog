@@ -13,7 +13,7 @@ git clone https://github.com/thorstenkloehn/Server.git /Server
 cd /Server
 ```
 * [Rust](https://www.rust-lang.org/tools/install)
-* [caddy](https://caddyserver.com/docs/install)
+
 ```
 bash install.sh
 
