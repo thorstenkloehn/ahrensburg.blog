@@ -19,7 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, r.Host)
 	// title := r.URL.Path[len("/login/")
 
-	if r.Host == "localhost:8080" {
+	if r.Host == "localhost:8081" {
 		wordpress := []models.Wordpress{}
 		db, err := gorm.Open(sqlite.Open("Datenbank.db"), &gorm.Config{})
 		if err != nil {
@@ -36,7 +36,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 	//Zugriff Kontrolle
-	if r.Host == "localhost:8080" {
+	if r.Host == "localhost:8081" {
 		// Sie haben Zugriff
 		urls := r.FormValue("urlSeiten")
 		// fmt.Fprintln(w, "Sie haben Zugriff")
@@ -79,7 +79,7 @@ func WordpressWebformular(w http.ResponseWriter, r *http.Request) {
 			}
 
 		}
-		http.Redirect(w, r, "http://localhost:8080", http.StatusFound)
+		http.Redirect(w, r, "http://localhost:8081", http.StatusFound)
 
 	} else {
 		//Sie habem kein Zugriff
